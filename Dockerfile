@@ -1,6 +1,4 @@
-FROM openjdk:11
+FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
-EXPOSE 8080
-ARG JAR_FILE=lib/ndongo.jar
-ADD ${JAR_FILE} app.jar
+COPY lib/ndongo.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
