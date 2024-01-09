@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Ndongo eSport</title>
+    <link href="../../static/css/admin/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content">
+        <main class="p-5">
+            <div class="p-2 mb-1">
+                <button class="btn btn-primary" onclick="window.location.href='/admin/teamCreate'">
+                    Crear nuevo equipo
+                </button>
+            </div>
+            <table class="table">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Game</th>
+                    <th scope="col">Players</th>
+                    <th scope="col">Action</th>
+                </tr>
+                <tr th:each="team : ${teams}" th:if="${team.projectManager.id == user.id or user.role.id == 1}">
+                    <td th:text="${team.id}"></td>
+                    <td th:text="${team.teamName}"></td>
+                    <td th:text="${team.game}"></td>
+                    <td><a class="btn btn-info" th:href="@{/admin/listPlayers/__${team.id}__}">List <span
+                            th:text="${team.players.size()}"></span> players</a></td>
+                    <td>
+                        <a class="btn btn-dark" th:href="@{'/admin/team/edit/' + ${team.id}}">Edit</a>
+                        <a class="btn btn-danger" th:href="@{'/admin/team/delete/' + ${team.id}}">Delete</a>
+                    </td>
+                </tr>
+            </table>
+        </main>
+    </div>
+</div>
+<th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+</body>
+</html>

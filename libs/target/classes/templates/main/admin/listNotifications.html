@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{admin_fragments :: head_admin('Send new notification')}">
+<body class="sb-nav-fixed">
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content">
+        <main class="p-5">
+            <div class="p-2 mb-1">
+                <button class="btn btn-primary" onclick="window.location.href='/admin/createNotification'">
+                    Crear nueva notificación
+                </button>
+            </div>
+
+            <table class="table">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Imagen (URL)</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                <tr th:each="notification : ${notifications}">
+                    <td scope="row" th:text="${notification.id}"></td>
+                    <td th:text="${notification.title}"></td>
+                    <td th:text="${notification.createdAt}"></td>
+                    <td><a th:href="${notification.imageUrl}">Visualizar imagen</a></td>
+                    <td th:text="${notification.author.username}">(<span th:text="${notification.author.id}"></span>)</td>
+                    <td>
+                        <a th:href="@{/admin/editNotification/{id}(id=${notification.id})}" class="btn btn-primary">Editar</a>
+                        <a th:href="@{/admin/deleteNotification/{id}(id=${notification.id})}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </table>
+        </main>
+    </div>
+</div>
+<th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{navbar :: html_head(pageTitle='Team Ndongo')}">
+</head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main/style.css">
+</head>
+<body>
+<header th:replace="~{navbar :: header}"></header>
+<nav th:replace="~{navbar :: nav}"></nav>
+<main class="container-fluid px-4 m-5 w-75 mx-auto">
+    <h1 class="mt-4">Objetivos de mercado</h1>
+    <div class="m-3">
+        <a class="btn btn-success" th:href="@{/market?filterBy=all}">Mostrar todos</a>
+        <a class="btn btn-primary" th:href="@{/market?filterBy=sold}">Mostrar vendidos</a>
+        <a class="btn btn-primary" th:href="@{/market?filterBy=bought}">Mostrar comprados</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <tr class="table-header table-active">
+            <th>Acción</th>
+            <th>Jugador</th>
+            <th>Nuestro equipo</th>
+            <th>Equipo externo</th>
+            <th>Precio</th>
+            <th>Tarifa</th>
+        </tr>
+        <tr th:each="obj : ${marketObjectives}">
+            <td th:text="${obj.action}"></td>
+            <td th:text="${obj.player}"></td>
+            <td><span th:text="${obj.game}"></span> <span th:text="${obj.team}"></span></td>
+            <td><span th:text="${obj.otherTeam}"></span></td>
+            <td><span th:text="${obj.price}"></span>€</td>
+            <td><span th:text="${obj.fee}"></span>€</td>
+        </tr>
+    </table>
+</main>
+<footer th:replace="~{footer :: footer}"></footer>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/main/script.js"></script>
+</body>
+</html>

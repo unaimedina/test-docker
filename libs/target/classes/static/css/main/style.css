@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+.slider {
+    margin-top: 5px;
+}
+
+.slide_viewer {
+    height: 80vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide_group {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.slide {
+    display: none;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.slide:first-child {
+    display: block;
+}
+
+.slide:nth-of-type(1) {
+    background-image: url("https://piks.eldesmarque.com/bin/esports/2023/03/VCT-EMEA-Valorant-2023.jpg");
+    background-size: auto;
+    background-position: center;
+}
+
+.slide:nth-of-type(2) {
+    background-image: url("https://i.imgur.com/DcVMc6l.png");
+    background-size: cover;
+    background-position: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .previous_btn {
+        left: 50px;
+    }
+    .next_btn {
+        right: 50px;
+    }
+}
+
+#icon {
+    margin-top: 10px;
+}
+

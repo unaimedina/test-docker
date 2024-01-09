@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="~{navbar :: html_head(pageTitle='Team Ndongo')}">
+</head>
+<head>
+    <meta charset="UTF-8">
+    <title>Torneo</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/main/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bracket/tournament.css">
+
+
+</head>
+
+<body>
+<header th:replace="~{navbar :: header}"></header>
+<nav th:replace="~{navbar :: nav}"></nav>
+<main>
+    <div class="container mt-3 text-center">
+        <h1 th:text="${tournament.game}"></h1>
+        <h2 th:text="${tournament.name}"></h2>
+        <hr class="w-25 opacity-75 mx-auto">
+        <div class="tournament-container mt-3">
+            <div class="tournament-headers">
+                <h3>Round of 16</h3>
+                <h3>Quarter-Finals</h3>
+                <h3>Semi-Finals</h3>
+                <h3>Final</h3>
+                <h3>Winner</h3>
+            </div>
+
+            <div class="tournament-brackets">
+                <ul class="bracket bracket-1">
+                    <th:block th:each="m : ${ro16}">
+                        <li class="team-item"><span th:text="${m.team1}"></span>
+                            <time th:text="${m.dateOrResult}"></time>
+                            <span th:text="${m.team2}"></span></li>
+                    </th:block>
+                </ul>
+                <ul class="bracket bracket-2">
+                    <th:block th:each="m : ${qf}">
+                        <li class="team-item"><span th:text="${m.team1}"></span>
+                            <time th:text="${m.dateOrResult}"></time>
+                            <span th:text="${m.team2}"></span></li>
+                    </th:block>
+                </ul>
+                <ul class="bracket bracket-3">
+                    <th:block th:each="m : ${sf}">
+                        <li class="team-item"><span th:text="${m.team1}"></span>
+                            <time th:text="${m.dateOrResult}"></time>
+                            <span th:text="${m.team2}"></span></li>
+                    </th:block>
+                </ul>
+                <ul class="bracket bracket-4">
+                    <th:block th:each="m : ${f}">
+                        <li class="team-item"><span th:text="${m.team1}"></span>
+                            <time th:text="${m.dateOrResult}"></time>
+                            <span th:text="${m.team2}"></span></li>
+                    </th:block>
+                </ul>
+                <ul class="bracket bracket-5">
+                    <th:block th:each="m : ${f}">
+                        <li class="team-item"><span th:text="${m.team1}"></span></li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+        <!-- End del bracket-->
+
+       <!--
+        <div class="mx-auto">
+            <h1 class="mx-auto title text-uppercase text-center mb-3">Premios</h1>
+            <table class="table table-striped w-50 mx-auto">
+                <thead>
+                <tr>
+                    <th class="col-1">PLACE</th>
+                    <th class="col-2">PRICE</th>
+                    <th>EQUIPO</th>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>$ 1000</td>
+                    <td>Team Ndongo</td>
+                </tr>
+                <tr>
+                    <td>2nd</td>
+                    <td>$ 500</td>
+                    <td>Team Ndongo</td>
+                </tr>
+                <tr>
+                    <td>3rd</td>
+                    <td>$ 250</td>
+                    <td>Team Ndongo</td>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+       -->
+    </div>
+</main>
+<footer th:replace="~{footer :: footer}"></footer>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main/script.js"></script>
+</body>
+</html>

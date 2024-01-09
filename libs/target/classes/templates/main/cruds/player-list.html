@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Ndongo eSport</title>
+    <link href="/static/css/admin/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content" class="m-5">
+        <main>
+            <h1 class="title mb-3 text-uppercase">jugadores</h1>
+            <a class="btn btn-primary mb-3" th:href="@{/admin/player/new}">Nuevo jugador</a>
+            <!-- Order by -->
+            <a class="btn btn-primary mb-3" th:href="@{/admin/players?orderBy=name}">Ordenar por nombre</a>
+            <a class="btn btn-primary mb-3" th:href="@{/admin/players?orderBy=user}">Ordenar por usuario</a>
+            <a class="btn btn-primary mb-3" th:href="@{/admin/players?orderBy=team}">Ordenar por equipo</a>
+            <a class="btn btn-primary mb-3" th:href="@{/admin/players?orderBy=game}">Ordenar por juego</a>
+            <a class="btn btn-primary mb-3" th:href="@{/admin/players?orderBy=id}">Ordenar por ID</a>
+            <!-- Search by -->
+            <form th:action="@{/admin/players/search}">
+                <div class="input-group mb-3">
+                    <select id="searchBy" name="searchBy">
+                        <option value="name">Nombre</option>
+                        <option value="user">Usuario</option>
+                        <option value="team">Equipo</option>
+                        <option value="game">Juego</option>
+                        <option value="id">ID</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    </div>
+                </div>
+            </form>
+            <table class="table">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Equipo</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                <tr th:each="player : ${players}">
+                    <td th:text="${player.id}"></td>
+                    <td th:text="${player.name}"></td>
+                    <td th:text="${player.user.username}"></td>
+                    <div th:if="${player.team == null}">
+                        <td>Sin equipo</td>
+                    </div>
+                    <div th:unless="${player.team == null}">
+                        <td><a th:href="@{/admin/listPlayers/__${player.team.id}__}"><span
+                                th:text="${player.team.teamName}"></span> (<span th:text="${player.team.game}"></span>)</a>
+                        </td>
+                    </div>
+                    <td>
+                        <a th:href="@{/admin/player/edit/__${player.id}__}"
+                           class="btn btn-sm btn-warning">Editar</a>
+                        <a th:href="@{/admin/player/delete/__${player.id}__}"
+                           class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </table>
+        </main>
+    </div>
+</div>
+<script>
+    const options = document.getElementById("searchBy");
+    const html = '<input id="search" type="text" style="margin-left: 5px; margin-right: 5px;" class="form-control" placeholder="Buscar" name="type">';
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById("search")) {
+            document.getElementById("search").remove();
+        }
+        document.getElementById("searchBy").insertAdjacentHTML("afterend", html);
+    });
+</script>
+<th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+</body>
+</html>

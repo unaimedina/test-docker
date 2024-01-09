@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{navbar :: html_head(pageTitle='Ndongo - ' + ${team.teamName})}"></head>
+<head>
+    <style>
+        .shadow {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{navbar :: header}"></header>
+<nav th:replace="~{navbar :: nav}"></nav>
+<main>
+    <h1 class="title text-center mt-5 text-uppercase"><span th:text="${team.teamName}"></span> (<span
+            th:text="${team.game}"></span>)</h1>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div th:if="${team.players.isEmpty()}" class="d-flex mx-auto">
+                <div class="alert text-center alert-warning w-100" role="alert">
+                    <h4 class="alert-heading">¡Aún no hay jugadores!</h4>
+                    <p class="text-danger">Atento a <a class="text-info" th:href="@{/notifications}">notificaciones</a> para nuevas incorporaciones.</p>
+                </div>
+            </div>
+
+            <div class="col-sm-4" th:each="player : ${team.players}">
+                <div class="card mb-3">
+                    <img th:src="${player.imageUrl}" class="card-img-top" th:alt="${player.user.username}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title" th:text="${player.user.username}"></h5>
+                        <p class="card-text" th:text="${player.name}"></p>
+                        <p class="card-text" th:text="${player.inGameRole}"></p>
+                        <p class="card-text" th:text="${player.description}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="mt-5 w-25 mx-auto">
+
+    <h1 class="title text-center mt-5 text-uppercase">Results</h1>
+    <div class="container mt-5">
+        <table class="table table-striped text-center shadow">
+            <thead>
+            <tr>
+                <th scope="col">Posición</th>
+                <th scope="col">Torneo</th>
+                <th scope="col">Premio</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="result : ${results}">
+                <th:block th:if="${result.team.equals(team)}">
+                    <td>3-4</td>
+                    <td th:text="${result.name}"></td>
+                    <td>1000€</td>
+                </th:block>
+                <th:block th:unless="${result.team.equals(team)}">
+                    <td colspan="3" class="text-danger">¡El equipo no tiene resultados!</td>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Ndongo eSport</title>
+    <link href="../../static/css/admin/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content" class="d-flex justify-content-center align-items-center">
+        <main class="text-center">
+            <h1 class="mb-3 text-uppercase">crear equipo</h1>
+            <form class="form m-3 p-3" th:action="@{/admin/team}" method="post" th:object="${team}">
+                <input type="hidden" th:field="*{id}">
+                <div class="row">
+                    <label class="form-label col-md-3 text-md-end" for="teamName">Nombre:</label>
+                    <div class="col-md-9">
+                        <input class="form-text" type="text" id="teamName" name="teamName" th:value="*{teamName}"
+                               required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="form-label col-md-3 text-md-end" for="game">Juego:</label>
+                    <div class="col-md-9">
+                        <input class="form-text" type="text" id="game" name="game" th:value="*{game}" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="form-label col-md-3 text-md-end" for="imageUrl">Imagen:</label>
+                    <div class="col-md-9">
+                        <input class="form-text" type="text" id="imageUrl" name="imageUrl" th:value="*{imageUrl}"
+                               required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="form-label col-md-3 text-md-end" for="description">Descripción:</label>
+                    <div class="col-md-9">
+                        <textarea class="form-text" id="description" name="description" th:text="*{description}"
+                                  th:value="*{description}"
+                                  required></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Team Manager -->
+                    <label class="form-label col-md-3 text-md-end" for="prMan">Manager:</label>
+                    <div class="col-md-9">
+                        <select class="form-select-sm" id="prMan" name="prMan">
+                            <!-- Iterar sobre la lista de jugadores sin equipo -->
+                            <option value="" disabled>Elige un Team Manager</option>
+                            <option th:each="teamManager : ${teamManagers}"
+                                    th:value="${teamManager.username}"
+                                    th:text="${teamManager.username}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-3 mb-3">
+                    <label class="form-label col-md-3 text-md-end" for="playersWithoutTeam">Jugadores:</label>
+                    <div class="col-md-9">
+                        <select class="form-select-sm" id="playersWithoutTeam" name="playersWithoutTeam">
+                            <!-- Iterar sobre la lista de jugadores sin equipo -->
+                            <option value="null">None</option>
+                            <option th:each="player : ${playersWithoutTeam}"
+                                    th:value="${player.name}"
+                                    th:text="${player.user.username}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col mt-1">
+                    <button class="btn btn-primary" type="button" onclick="updateSelectedPlayers()">
+                        Actualizar jugadores
+                    </button>
+                </div>
+
+                <hr>
+
+                <div class="col mt-2">
+                    <button class="btn btn-success text-uppercase" type="submit">Insertar</button>
+                </div>
+
+                <table class="table-sm mt-3 text-center" id="table2">
+                    <tr class="p-3">
+                        <th class="text-uppercase" colspan="2">Jugadores seleccionados</th>
+                    </tr>
+                    <tr class="p-3">
+                        <th scope="col" class="text-uppercase">Nombre</th>
+                        <th scope="col" class="text-uppercase">Usuario</th>
+                    </tr>
+                </table>
+                <!-- Campo oculto para almacenar jugadores seleccionados -->
+                <input type="hidden" id="selectedPlayers" name="newPlayers">
+            </form>
+        </main>
+    </div>
+</div>
+<script th:inline="javascript">
+    const selectedPlayers = [];
+    const selectPl = [];
+
+    function updateSelectedPlayers() {
+        const selectElement = document.getElementById("playersWithoutTeam");
+        for (let i = 0; i < selectElement.options.length; i++) {
+            // if null clear selectedPlayers
+            if (selectElement.options[i].value === "null") {
+                selectedPlayers.length = 0;
+                selectPl.length = 0;
+                if (selectElement.options[i].selected) {
+                    selectedPlayers.push(selectElement.options[i].value);
+                    selectPl.push(selectElement.options[i].text);
+                    selectElement.options[i].disabled = true;
+                }
+            }
+        }
+
+        document.getElementById("selectedPlayers").value = selectedPlayers.join(',');
+
+        for (let i = 0; i < selectPl.length; i++) {
+            const table = document.getElementById("table2");
+            const newRow = table.insertRow(table.rows.length);
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            cell1.classList.add("text-center");
+            cell2.classList.add("text-center");
+
+            for (let j = 0; j < table.rows.length; j++) {
+                if (table.rows[j].cells[0].innerHTML === selectedPlayers[i]) {
+                    table.deleteRow(j);
+                }
+            }
+            cell1.innerHTML = selectedPlayers[i];
+            cell2.innerHTML = selectPl[i];
+        }
+    }
+</script>
+<th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+</body>
+</html>

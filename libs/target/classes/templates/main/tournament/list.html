@@ -1,0 +1,30 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{navbar :: html_head(pageTitle='Team Ndongo')}">
+</head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main/style.css">
+</head>
+<body>
+<header th:replace="~{navbar :: header}"></header>
+<nav th:replace="~{navbar :: nav}"></nav>
+<main class="container-fluid px-4 m-5 w-75 mx-auto">
+    <table class="table table-hover">
+        <tr class="table-active bg-info bg-opacity-75 text-white">
+            <th>Juego</th>
+            <th>Nombre</th>
+            <th>Equipo</th>
+            <th></th>
+        </tr>
+        <tr th:each="tournament : ${tournaments}">
+            <td th:text="${tournament.game}"></td>
+            <td th:text="${tournament.name}"></td>
+            <td><span th:text="${tournament.team.teamName}"></span> (<span th:text="${tournament.team.game}"></span>)</td>
+            <td><a class="btn btn-primary" th:href="@{/tournaments/view/__${tournament.id}__}">Ver detalles</a></td>
+        </tr>
+    </table>
+</main>
+<footer th:replace="~{footer :: footer}"></footer>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/main/script.js"></script>
+</body>
+</html>

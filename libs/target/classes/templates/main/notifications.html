@@ -1,0 +1,32 @@
+<html xmlns:th="http:/www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http:/www.thymeleaf.org ">
+<head th:replace="~{navbar :: html_head(pageTitle='Notificaciones')}"></head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main/notifications.css">
+</head>
+<body>
+<header th:replace="~{navbar :: header}"></header>
+<nav th:replace="~{navbar :: nav}"></nav>
+<main>
+    <div th:each="notification : ${notifications}">
+        <div class="blog-card">
+            <div class="meta">
+                <div class="photo" th:style="'background-image: url(' + ${notification.imageUrl} + ');'"></div>
+                <ul class="details">
+                    <li class="author"><span th:text="${notification.author.username}"></span></li>
+                    <li class="date"><span th:text="${notification.createdAt}"></span></li>
+                </ul>
+            </div>
+            <div class="description">
+                <h1 th:text="${notification.title}"></h1>
+                <p th:text="${notification.content}"></p>
+                <p class="read-more">
+                    <a href="https://discord.gg/wFmRqm2she">Join Discord</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{footer :: footer}"></footer>
+</body>
+</html>

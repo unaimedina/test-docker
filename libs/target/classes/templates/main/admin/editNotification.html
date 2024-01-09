@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="admin_fragments :: head_admin('Send new notification')">
+<body class="sb-nav-fixed">
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4 p-3">
+                <h1 class="p-2 title text-uppercase">Enviar nueva notificación</h1>
+                <form th:object="${Notification}" th:action="@{/updateNotification}" method="POST">
+                    <div class="form-group p-2">
+                        <label for="title">Título de la publicación</label>
+                        <input type="text" class="form-control" id="title" name="title" aria-describedby="title" th:value="*{title}" required>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="date">Fecha:</label>
+                        <input type="text" class="form-control" name="createdAt" id="date" th:value="*{createdAt}" disabled>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="description">Contenido:</label>
+                        <textarea class="form-control" id="description" name="content" rows="3" th:text="*{content}" th:value="*{content}" required></textarea>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="image">Imagen (URL):</label>
+                        <input type="text" class="form-control" id="image" name="imageUrl" aria-describedby="image" th:value="*{imageUrl}"
+                               placeholder="https://..." required>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="author">Autor:</label>
+                        <input type="text" class="form-control" id="author" name="author" aria-describedby="author"
+                               th:value="*{#authentication.name}" disabled>
+                    </div>
+                    <div class="form-group p-2">
+                        <input type="checkbox" class="form-check-input" name="publishOnDiscord" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Publicar en Discord</label>
+                    </div>
+                    <div class="form-group p-2">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+</body>
+</html>

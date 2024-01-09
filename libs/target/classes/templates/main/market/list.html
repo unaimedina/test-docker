@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/JSP/Page">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Ndongo eSport</title>
+    <link href="../../static/css/admin/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content">
+        <main class="container-fluid px-4">
+            <h1 class="mt-4">Objetivos de mercado</h1>
+            <div class="m-3">
+                <a class="btn btn-success" th:href="@{/admin/market/list?filterBy=all}">Mostrar todos</a>
+                <a class="btn btn-primary" th:href="@{/admin/market/list?filterBy=sold}">Mostrar vendidos</a>
+                <a class="btn btn-primary" th:href="@{/admin/market/list?filterBy=bought}">Mostrar comprados</a>
+                <a class="btn btn-primary" th:href="@{/admin/market/list?filterBy=otw}">Mostrar en observación</a>
+            </div>
+            <table class="table table-bordered table-hover">
+                <tr class="table-header table-active">
+                    <th>Acción</th>
+                    <th>Jugador</th>
+                    <th>Nuestro equipo</th>
+                    <th>Equipo externo</th>
+                    <th>Precio</th>
+                    <th>Tarifa</th>
+                </tr>
+                <tr th:each="obj : ${marketObjectives}">
+                    <td th:text="${obj.action}"></td>
+                    <td th:text="${obj.player}"></td>
+                    <td><span th:text="${obj.game}"></span> <span th:text="${obj.team}"></span></td>
+                    <td><span th:text="${obj.otherTeam}"></span> </td>
+                    <td><span th:text="${obj.price}"></span>€</td>
+                    <td><span th:text="${obj.fee}"></span>€</td>
+                </tr>
+            </table>
+        </main>
+    </div>
+</div>
+<th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+</body>
+</html>

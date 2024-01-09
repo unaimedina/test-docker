@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>List of Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="../../../static/css/admin/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{admin_fragments :: adminNav}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{admin_fragments :: admin_navbar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container mt-lg-5">
+                <h2 class="text-center">List of Users</h2>
+
+                <!-- Botones para filtrar -->
+                <div class="text-center mb-3">
+                    <button class="btn btn-info btn-lg" onclick="filterUsers('player')">Mostrar jugadores</button>
+                    <button class="btn btn-info btn-lg" onclick="filterUsers('admin')">Mostrar admins</button>
+                    <button class="btn btn-info btn-lg" onclick="filterUsers('project_manager')">Mostrar project managers</button>
+                    <a th:href="@{/admin/users}" class="btn btn-success btn-lg">Mostrar todos los usuarios</a>
+                    <a th:href="@{/admin/users/export}" class="btn btn-danger btn-lg">Exportar usuarios (.csv)</a>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    <!-- Filas de usuarios -->
+                    <tr th:each="user : ${users}" class="user-row" data-role="${user.role.name}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.role.name}"></td>
+                        <td>
+                            <a th:href="@{/admin/users/edit/__${user.id}__}" class="btn btn-warning btn-sm">Editar</a>
+                            <a th:href="@{/admin/users/delete/__${user.id}__}" class="btn btn-danger btn-sm">Borrar</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <th:block th:replace="~{admin_fragments :: javascript}"></th:block>
+            <script th:inline="javascript">
+                function filterUsers(role) {
+                    window.location.href = "/admin/users/filterByRole?role=" + role;
+                }
+            </script>
+        </main>
+    </div>
+</div>
+</body>
+</html>
